@@ -9,9 +9,11 @@ steps:
 
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/$PROJECT_ID/$_CLOUD_RUN_PROJECT:$SHORT_SHA', '.']
+    dir: "./"
 
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/$PROJECT_ID/$_CLOUD_RUN_PROJECT:$SHORT_SHA']
+    dir: "./"
 
   - name: 'gcr.io/cloud-builders/gcloud'
     args:
@@ -20,5 +22,8 @@ steps:
         gcloud run deploy $_CLOUD_RUN_PROJECT \
         --image=gcr.io/$PROJECT_ID/$_CLOUD_RUN_PROJECT:$SHORT_SHA \
         --region=us-east4 \
-        --platform=managed'
+        --platform=managed\
+        --set-env-vars=GCP_PROJECT_ID=${PROJECT_ID},GCP_PUBSUB_TOPIC_CLIENT_MESSAGES=${_GCP_PUBSUB_TOPIC_CLIENT_MESSAGES}
+    dir: "./"
     entrypoint: bash
+    
