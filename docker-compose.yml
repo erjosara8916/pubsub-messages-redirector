@@ -1,0 +1,16 @@
+version: '3.5'
+
+services:
+  app:
+    build: .
+    volumes:
+      - '.:/app'
+    ports:
+      - '3000:80'
+    environment:
+      - NODE_ENV=development
+    environment: 
+      - 'PORT=${PORT}'
+      - 'GCP_PROJECT_ID=${GCP_PROJECT_ID}'
+      - 'GCP_PUBSUB_TOPIC_CLIENT_MESSAGES=${GCP_PUBSUB_TOPIC_CLIENT_MESSAGES}'
+      - 'GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_APPLICATION_CREDENTIALS}'
